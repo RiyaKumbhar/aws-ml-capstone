@@ -19,6 +19,4 @@
   - 46/46 videos transcribed
   - 10 topics extracted via Amazon Comprehend                                                                                                                                                                 
   - Live keyword search with topic filtering 
-                                                                                                                                                                                                              
-  ![Dashboard](dashboard_preview.png)
                                            
