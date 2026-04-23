@@ -1,4 +1,4 @@
-# AWS ML Capstone — Video Content Search Dashboard
+# AWS ML Capstone - Video Content Search Dashboard
  
 > **AWS Academy Graduate: Machine Learning for Natural Language Processing**
 > Capstone project for the AWS Academy ML for NLP course.
