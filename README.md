@@ -15,7 +15,7 @@ This capstone builds an end-to-end NLP pipeline that transcribes, normalizes, an
  
 > **Note:** The live dashboard runs inside an **AWS Academy SageMaker notebook session**, which is time-limited. The S3 bucket, IAM roles, and compute environment are provisioned per-session and are automatically torn down when the lab ends — so the interactive version cannot be preserved as a static file. The screenshot below shows the dashboard running during the active lab session.
  
-![Dashboard Screenshot](assets/dashboard_screenshot.png)
+![Dashboard Screenshot](dashboard_screenshot.png)
  
 The dashboard includes:
 - **Keyword search** across all 46 transcribed videos (with live transcript preview)
