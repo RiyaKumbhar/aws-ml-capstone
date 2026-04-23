@@ -1,22 +1,61 @@
-# ML Video Content Search Dashboard                                                                                                                                                                         
-                                     
-  Capstone project for AWS Academy Machine Learning for Natural Language Processing.
-                                                                                    
-  ## What It Does
-  An end-to-end NLP pipeline that transcribes 46 ML course videos and builds an interactive search dashboard - students can find video content by keyword or topic instantly.
-                                                                                                                                                                             
-  ## Pipeline                                                                                                                                                                                                 
-  1. Source 46 videos from Amazon S3
-  2. Transcribe audio using ffmpeg + SpeechRecognition                                                                                                                                                        
-  3. Normalize text with NLTK (tokenization, stopwords, lemmatization)
-  4. Extract 10 topics using Amazon Comprehend batch topic modeling   
-  5. Interactive search dashboard with keyword highlighting and topic filters                                                                                                                                 
-                                                                             
-  ## Tech Stack                                                                                                                                                                                               
-  Amazon S3 · Amazon Comprehend · Amazon SageMaker · ffmpeg · SpeechRecognition · NLTK · scikit-learn · pandas · matplotlib · Python 3.12
-                                                                                                                                                                                                              
-  ## Results                                                                                                                                                                                                  
-  - 46/46 videos transcribed
-  - 10 topics extracted via Amazon Comprehend                                                                                                                                                                 
-  - Live keyword search with topic filtering 
-                                           
+# AWS ML Capstone — Video Content Search Dashboard
+ 
+> **AWS Academy Graduate: Machine Learning for Natural Language Processing**
+> Capstone project for the AWS Academy ML for NLP course.
+ 
+---
+ 
+## Project Overview
+ 
+This capstone builds an end-to-end NLP pipeline that transcribes, normalizes, and indexes **46 machine learning course videos**, then surfaces them through an **interactive search dashboard** — so students can instantly find relevant content by topic or keyword.
+ 
+---
+ 
+## Dashboard Preview
+ 
+> **Note:** The live dashboard runs inside an **AWS Academy SageMaker notebook session**, which is time-limited. The S3 bucket, IAM roles, and compute environment are provisioned per-session and are automatically torn down when the lab ends — so the interactive version cannot be preserved as a static file. The screenshot below shows the dashboard running during the active lab session.
+ 
+![Dashboard Screenshot](assets/dashboard_screenshot.png)
+ 
+The dashboard includes:
+- **Keyword search** across all 46 transcribed videos (with live transcript preview)
+- **Module filter** to narrow by course section (Modules 1–7)
+- **Topic filter** based on Amazon Comprehend topic modeling (10 topics)
+- **Top 25 terms bar chart** visualizing the most frequent terms across the entire corpus
+---
+ 
+## 🏗️ Pipeline Architecture
+ 
+```
+46 Course Videos (S3)
+        │
+        ▼
+┌─────────────────────────────┐
+│  Speech-to-Text (local)     │  ffmpeg (audio extraction)
+│  + SpeechRecognition lib    │  → Google Speech API (fallback)
+│  [Amazon Transcribe was     │    used because Transcribe
+│   blocked by lab IAM role]  │    permissions were restricted
+└──────────────┬──────────────┘
+               │  46 raw transcripts → S3 (transcripts/)
+               ▼
+┌─────────────────────────────┐
+│  Text Normalization (NLTK)  │  Lowercase → remove punctuation
+│                             │  → tokenize → remove stopwords
+│                             │  → lemmatize
+└──────────────┬──────────────┘
+               │  46 normalized docs → S3 (normalized/)
+               ▼
+┌─────────────────────────────┐
+│  Amazon Comprehend          │  StartTopicsDetectionJob
+│  Topic Modeling             │  → 10 topics (doc-topics.csv
+│                             │     + topic-terms.csv)
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│  Interactive Dashboard      │  ipywidgets + matplotlib
+│  (Jupyter Notebook)         │  Keyword search + topic filter
+└─────────────────────────────┘
+```
+ 
+---
